@@ -1,40 +1,20 @@
-package com.example.ankit.interiit;
+package com.example.ankit.HelpU;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.telephony.SmsManager;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -47,8 +27,6 @@ import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     //    String phoneNumber;
@@ -62,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     String user;
     String[] nearby;
     String IP="http://192.168.0.104/";
+    public static final String NAME = "MyPrefsFile1";
+    private static Toast address;
     String first;
 //    String lastlattitude;
 //    String lastlongitude;
@@ -78,7 +58,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SharedPreferences settings1 = getSharedPreferences(NAME, 0); // 0 - for private mode
+        SharedPreferences.Editor editor = settings1.edit();
+        editor.putString("help", "true");
+        editor.commit();
         SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
+//Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
+        user= settings.getString("user", null);
+//                SharedPreferences.Editor login = getSharedPreferences(LOGIN_NAME, MODE_PRIVATE).edit();
+//                login.putString("user", number1);
+
+//Set "hasLoggedIn" to true
+
+//        editor.putString("user", number1);
+//        editor.putString("first", "Yes");
 //Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
 //        boolean hasLoggedIn = settings.getBoolean("hasLoggedIn", false);
 //        SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
@@ -109,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
             @Override
             public void gotLocation(Location location){
+
                 lattitude=Double.toString(location.getLatitude());
                 longitude=Double.toString(location.getLongitude());
 
@@ -157,48 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//    public class MyLocationListener implements LocationListener {
-//        @Override
-//        public void onLocationChanged(Location location) {
-//// Retrieving Latitude
-//            location.getLatitude();
-//// Retrieving getLongitude
-//            location.getLongitude();
-////            EditText textInfo;
-////            textInfo.setText("");
-//            String text = "My Current Location is:\nLatitude = "
-//                    + location.getLatitude() + "\nLongitude = "
-//                    + location.getLongitude();
-////            textInfo.setText(text);
-////            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-//// set Google Map on webview
-//            url = "http://maps.google.com?q="
-//                    + location.getLatitude() + "," + location.getLongitude();
-////            position.loadUrl(url);
-//            System.out.println(url);
-//        }
-//
-//        @Override
-//        public void onProviderDisabled(String provider) {
-//            Toast.makeText(getApplicationContext(), "GPS Disabled",
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onProviderEnabled(String provider) {
-//            Toast.makeText(getApplicationContext(), "GPS Enabled",
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//        }
-//    }
-//
-//
-
-
-
     public void buttonOnClick(View v) {
         contacts = (Button) findViewById(R.id.button_contacts);
         startActivity(new Intent(getApplicationContext(), Activity2.class));
@@ -208,7 +160,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void buttonOnClickhelp(View v) {
-//        contacts = (Button) findViewById(R.id.button_help);
+        Button help = (Button) findViewById(R.id.button_help);
+        SharedPreferences settings = getSharedPreferences(NAME, 0);
+//Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
+      String help1= settings.getString("help", null);
+        SharedPreferences.Editor editor = settings.edit();
+
+        if(help1.equals("true")){
+
+            help.setText("Cancel");
+            editor.remove("help");
+            editor.putString("help", "false");
+            editor.commit();
+            if (address != null)
+                address.cancel();
+            address=Toast.makeText(getApplicationContext(), "Help is on the Way", Toast.LENGTH_LONG);
+                    address.show();
+        }
+        else
+        {
+            editor.remove("help");
+            editor.putString("help","true");
+            help.setText("Help");
+            editor.commit();
+            if (address != null)
+                address.cancel();
+           address= Toast.makeText(getApplicationContext(), "Help Cancelled", Toast.LENGTH_LONG);
+                   address.show();
+
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+
+        }
 //        startActivity(new Intent(getApplicationContext(), Activity2.class));
 //        final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 //        dialog.setTitle("Loading...");
@@ -225,10 +208,13 @@ public class MainActivity extends AppCompatActivity {
 //                dialog.dismiss();
 //            }
 //        }, delayInMillis);
-                        Toast.makeText(getApplicationContext(), "Help is on the Way", Toast.LENGTH_LONG).show();
 
         Handler myHandler = new Handler();
         myHandler.postDelayed(mMyRunnable, 15000);
+        editor.remove("help");
+        editor.putString("help","true");
+        help.setText("Help");
+        editor.commit();
 //        sendSMSMessage();
 //        sendBtn.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view) {
@@ -303,10 +289,17 @@ public class MainActivity extends AppCompatActivity {
             try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNo, null, message, null, null);
-            Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+                if (address != null)
+                    address.cancel();
+            address=Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG);
+                address.show();
         }
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "SMS faild, please try again.", Toast.LENGTH_LONG).show();
+            if (address != null)
+                address.cancel();
+
+            address=Toast.makeText(getApplicationContext(), "SMS faild, please try again.", Toast.LENGTH_LONG);
+            address.show();
             e.printStackTrace();
         }
         }
@@ -393,9 +386,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                        System.out.println(lattitude);
 //                        System.out.println(longitude);
-                        SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
-//Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
-                        user= settings.getString("user", null);
+
                         System.out.println();
                         new LongOperation1().execute(user + "_" + lattitude + "_" + longitude + "_1");
 
@@ -496,10 +487,17 @@ public class MainActivity extends AppCompatActivity {
             try {
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(phoneNo, null, message, null, null);
-                Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+                if (address != null)
+                    address.cancel();
+
+                address=Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG);
+                        address.show();
             }
             catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "SMS faild, please try again.", Toast.LENGTH_LONG).show();
+                if (address != null)
+                    address.cancel();
+               address= Toast.makeText(getApplicationContext(), "SMS faild, please try again.", Toast.LENGTH_LONG);
+                address.show();
                 e.printStackTrace();
             }
                 }

@@ -6,4 +6,5 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_signup">Signup</string>
     <string name="title_activity_4">Delete Contacts</string>
+    <string name="title_activity_cancel">cancel</string>
 </resources>

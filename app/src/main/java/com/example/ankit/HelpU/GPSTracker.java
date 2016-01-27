@@ -1,4 +1,4 @@
-package com.example.ankit.interiit;
+package com.example.ankit.HelpU;
 
 /**
  * Created by ankit on 25/1/16.
@@ -178,7 +178,7 @@ public class GPSTracker extends Service implements LocationListener {
                     }
                 });
 
-        // on pressing cancel button
+        // on pressing widget button
         alertDialog.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
