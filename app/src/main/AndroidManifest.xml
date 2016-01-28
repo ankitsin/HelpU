@@ -53,7 +53,21 @@
             android:label="@string/title_activity_4"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <receiver android:name=".widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mywidget" />
+        </receiver>
+
+        <activity
+            android:name=".sendmsg"
+            android:label="@string/title_activity_sendmsg"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

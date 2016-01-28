@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SyncAdapterType;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     String[] nearby;
     String IP="http://192.168.0.104/";
     public static final String NAME = "MyPrefsFile1";
+    String flag="true";
     private static Toast address;
     String first;
 //    String lastlattitude;
@@ -58,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        SharedPreferences settings1 = getSharedPreferences(NAME, 0); // 0 - for private mode
-        SharedPreferences.Editor editor = settings1.edit();
-        editor.putString("help", "true");
-        editor.commit();
+//        SharedPreferences settings1 = getSharedPreferences(NAME, 0); // 0 - for private mode
+//        SharedPreferences.Editor editor = settings1.edit();
+//        editor.remove("help");
+//        editor.putString("help", "true");
+//        editor.commit();
+        Button help = (Button) findViewById(R.id.button_help);
+
+        help.setText("Help");
+
         SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
 //Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
         user= settings.getString("user", null);
@@ -161,17 +168,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonOnClickhelp(View v) {
         Button help = (Button) findViewById(R.id.button_help);
-        SharedPreferences settings = getSharedPreferences(NAME, 0);
+//        SharedPreferences settings = getSharedPreferences(NAME, 0);
 //Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
-      String help1= settings.getString("help", null);
-        SharedPreferences.Editor editor = settings.edit();
+//      String help1= settings.getString("help", null);
+//        SharedPreferences.Editor editor = settings.edit();
+        System.out.println(flag);
 
-        if(help1.equals("true")){
-
+        if(flag.equals("true"))
+        {
+            System.out.println(flag);
             help.setText("Cancel");
-            editor.remove("help");
-            editor.putString("help", "false");
-            editor.commit();
+            System.out.println(help.getText());
+
+//            editor.remove("help");
+//            editor.putString("help", "false");
+//            editor.commit();
+            flag="false";
             if (address != null)
                 address.cancel();
             address=Toast.makeText(getApplicationContext(), "Help is on the Way", Toast.LENGTH_LONG);
@@ -179,10 +191,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            editor.remove("help");
-            editor.putString("help","true");
+//            editor.remove("help");
+//            editor.putString("help","true");
             help.setText("Help");
-            editor.commit();
+//            editor.commit();
+            flag="true";
             if (address != null)
                 address.cancel();
            address= Toast.makeText(getApplicationContext(), "Help Cancelled", Toast.LENGTH_LONG);
@@ -192,6 +205,68 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
         }
+        onclickhelp();
+//        MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
+//            @Override
+//            public void gotLocation(Location location){
+//
+//                lattitude=Double.toString(location.getLatitude());
+//                longitude=Double.toString(location.getLongitude());
+//
+//                //Got the location!
+//            }
+//        };
+//        MyLocation myLocation = new MyLocation();
+//        myLocation.getLocation(this, locationResult);
+////        startActivity(new Intent(getApplicationContext(), Activity2.class));
+////        final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+////        dialog.setTitle("Loading...");
+////        dialog.setMessage("Please wait.");
+////        dialog.setIndeterminate(true);
+////        dialog.setCancelable(false);
+////        dialog.show();
+////
+////        long delayInMillis = 20000;
+////        Timer timer = new Timer();
+////        timer.schedule(new TimerTask() {
+////            @Override
+////            public void run() {
+////                dialog.dismiss();
+////            }
+////        }, delayInMillis);
+//
+//        Handler myHandler = new Handler();
+//        myHandler.postDelayed(mMyRunnable, 15000);
+//        editor.remove("help");
+//        editor.putString("help","true");
+
+        flag="true";
+        help.setText("Help");
+        System.out.println(flag);
+
+//        editor.commit();
+//        sendSMSMessage();
+//        sendBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//
+//            }
+//        });
+
+    }
+    public void onclickhelp()
+    {
+        MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
+            @Override
+            public void gotLocation(Location location){
+
+                lattitude=Double.toString(location.getLatitude());
+                longitude=Double.toString(location.getLongitude());
+
+                //Got the location!
+            }
+        };
+        MyLocation myLocation = new MyLocation();
+        myLocation.getLocation(this, locationResult);
 //        startActivity(new Intent(getApplicationContext(), Activity2.class));
 //        final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 //        dialog.setTitle("Loading...");
@@ -211,19 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
         Handler myHandler = new Handler();
         myHandler.postDelayed(mMyRunnable, 15000);
-        editor.remove("help");
-        editor.putString("help","true");
-        help.setText("Help");
-        editor.commit();
-//        sendSMSMessage();
-//        sendBtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
     }
-
     public void buttonOnClickLogout(View v) {
         SharedPreferences preferences = getSharedPreferences("MyPrefsFile", 0);
         preferences.edit().clear().commit();
@@ -308,7 +371,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
 //Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
         user= settings.getString("user", null);
-
+//        SharedPreferences settings1 = getSharedPreferences(LOCATE, 0);
+//Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
         System.out.println(lattitude);
         System.out.println(longitude);
         System.out.println(user);
