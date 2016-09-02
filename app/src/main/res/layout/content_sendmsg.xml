@@ -12,4 +12,17 @@
     tools:context="com.example.ankit.HelpU.sendmsg"
     tools:showIn="@layout/activity_sendmsg">
 
+
+    <ImageButton
+        android:layout_width="370dp"
+        android:layout_height="370dp"
+        android:scaleType="fitCenter"
+        android:id="@+id/button_wcancel"
+        android:onClick="buttonOnClickWcancel"
+        android:background="@color/colortransparent"
+        android:src="@drawable/cancel"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="83dp" />
 </RelativeLayout>

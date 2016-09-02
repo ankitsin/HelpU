@@ -7,7 +7,7 @@
     <string name="title_activity_signup">Signup</string>
     <string name="title_activity_4">Delete Contacts</string>
     <string name="title_activity_cancel">cancel</string>
-    <string name="title_activity_widget">widget</string>
+    <string name="title_activity_widget">HelpU</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_sendmsg">sendmsg</string>
+    <string name="title_activity_sendmsg">HelpU</string>
 </resources>

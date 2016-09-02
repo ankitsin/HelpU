@@ -15,13 +15,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Contacts"
+        android:text="        Add Contacts          "
         android:id="@+id/button_add"
-        android:layout_marginBottom="99dp"
+        android:layout_marginBottom="76dp"
         android:onClick="buttonOnClickadd"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorwhite"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/list_added"
+        android:layout_alignStart="@+id/list_added" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -35,20 +37,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BACK"
-        android:id="@+id/button2"
+        android:text="            Delete             "
+        android:id="@+id/button_delete"
+        android:onClick="buttonOnClickdelete"
         android:layout_alignTop="@+id/button_add"
         android:layout_alignRight="@+id/list_added"
-        android:layout_alignEnd="@+id/list_added"
-        android:onClick="buttonOnClickbacktohelp" />
+        android:background="@color/colorred"
+        android:textColor="@color/colorwhite"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/button_delete"
-        android:layout_below="@+id/list_added"
-        android:layout_toRightOf="@+id/button_add"
-        android:layout_toEndOf="@+id/button_add"
-        android:onClick="buttonOnClickdelete" />
+        android:layout_alignEnd="@+id/list_added" />
 </RelativeLayout>

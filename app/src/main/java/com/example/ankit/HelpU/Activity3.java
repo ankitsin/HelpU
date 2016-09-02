@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -49,6 +50,7 @@ public class Activity3 extends ListActivity {
         //	listview.setChoiceMode(listview.CHOICE_MODE_NONE);
         //	listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
         listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+        getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 
         //--	text filtering
         listview.setTextFilterEnabled(true);

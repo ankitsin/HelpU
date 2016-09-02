@@ -1,6 +1,7 @@
 package com.example.ankit.HelpU;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Activity4 extends ListActivity {
     String phoneNumber;
@@ -23,7 +25,7 @@ public class Activity4 extends ListActivity {
 
     ArrayList<String> added_contacts= new ArrayList<String>();
     ArrayList<String> added_numbers= new ArrayList<String>();
-
+    Integer len=0;
     //
     Button back;
     @Override
@@ -32,6 +34,7 @@ public class Activity4 extends ListActivity {
         setContentView(R.layout.activity_4);
 
         // -- Display mode of the ListView
+        getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 
 
         String file = "mydata";
@@ -64,9 +67,17 @@ public class Activity4 extends ListActivity {
 
             }
 //        }
-
-        added_contacts=finalcontact;
-        added_numbers=finalnumber;
+        for(String number : finalcontact)
+        {
+            added_contacts.add(number);
+        }
+        for(String number : finalnumber)
+        {
+            added_numbers.add(number);
+        }
+        System.out.println(added_contacts);
+//        added_contacts=finalcontact;
+//        added_numbers=finalnumber;
         System.out.println(finalcontact);
         String[] contacts = new String[finalcontact.size()];
         contacts = finalcontact.toArray(contacts);
@@ -90,24 +101,28 @@ public class Activity4 extends ListActivity {
         contacts = finalcontact.toArray(contacts);
         String[] numbers = new String[finalnumber.size()];
         numbers = finalnumber.toArray(numbers);
+        System.out.println(position);
         if( item.isChecked())
         {
-            added_contacts.remove(contacts[position]);
-            added_numbers.remove(numbers[position]);
+            added_contacts.set(position, null);
+            added_numbers.set(position, null);
             System.out.println("-------------------------------------------"+added_contacts+"................."+added_numbers);
+            len=len+1;
         }
         if(!item.isChecked())
         {
-            if(position>added_contacts.size()-1)
-            {
-                added_contacts.add(contacts[position-1]);
-                added_numbers.add(numbers[position-1]);
-
-            }
-            else {
-                added_contacts.add(contacts[position]);
-                added_numbers.add(numbers[position]);
-            }
+//            if(position>added_contacts.size()-1)
+//            {
+//                added_contacts.add(contacts[position-1]);
+//                added_numbers.add(numbers[position-1]);
+//
+//            }
+//            else {
+            System.out.println(contacts[position]);
+                    added_contacts.set(position, contacts[position]);
+                added_numbers.set(position,numbers[position]);
+//            }
+            len=len-1;
         }
 //        Toast.makeText(this, contacts[position] + " checked : " + item.isChecked(), Toast.LENGTH_SHORT).show();
     }
@@ -115,6 +130,11 @@ public class Activity4 extends ListActivity {
 
     public void buttonOnClickremove(View v)
     {
+        added_contacts.removeAll(Collections.singleton(null));
+        added_numbers.removeAll(Collections.singleton(null));
+        System.out.println(added_contacts);
+        System.out.println(added_numbers);
+
         String[] numbers = new String[added_numbers.size()];
         numbers = added_numbers.toArray(numbers);
         String[] contacts = new String[added_contacts.size()];

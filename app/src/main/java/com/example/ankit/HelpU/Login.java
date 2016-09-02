@@ -2,6 +2,7 @@ package com.example.ankit.HelpU;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import java.net.URLEncoder;
 public class Login extends AppCompatActivity {
     String number1;
     String password1;
-    String IP="http://192.168.0.104/";
+    String IP="http://10.42.0.1/";
     public static final String PREFS_NAME = "MyPrefsFile";
 //    public static final String LOGIN_NAME = "MyPrefsFile";
     @Override
@@ -32,6 +33,8 @@ public class Login extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         SharedPreferences settings = getSharedPreferences(Login.PREFS_NAME, 0);
+        getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+
 //Get "hasLoggedIn" value. If the value doesn't exist yet false is returned
         boolean hasLoggedIn = settings.getBoolean("hasLoggedIn", false);
 
@@ -187,9 +190,14 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
-            else
+            else if(result.equals(""))
             {
                 Toast.makeText(getApplicationContext(), "Account Exist", Toast.LENGTH_LONG).show();
+
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Invalid Mobile Number", Toast.LENGTH_LONG).show();
 
             }
             System.out.println(result.getClass().getName());
